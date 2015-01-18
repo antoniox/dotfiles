@@ -1,0 +1,30 @@
+[submodule "vimrc/bundle/vim-fugitive"]
+	path = vimrc/bundle/vim-fugitive
+	url = git://github.com/tpope/vim-fugitive.git
+[submodule "vimrc/bundle/jedi-vim"]
+	path = vimrc/bundle/jedi-vim
+	url = https://github.com/davidhalter/jedi-vim.git
+[submodule "vimrc/bundle/vim-airline"]
+	path = vimrc/bundle/vim-airline
+	url = https://github.com/bling/vim-airline
+[submodule "vimrc/bundle/hardmode"]
+	path = vimrc/bundle/hardmode
+	url = git://github.com/wikitopian/hardmode.git
+[submodule "vimrc/bundle/syntastic"]
+	path = vimrc/bundle/syntastic
+	url = https://github.com/scrooloose/syntastic.git
+[submodule "vimrc/bundle/vim-buffergator"]
+	path = vimrc/bundle/vim-buffergator
+	url = https://github.com/jeetsukumaran/vim-buffergator
+[submodule "vimrc/bundle/vim-colorschemes"]
+	path = vimrc/bundle/vim-colorschemes
+	url = https://github.com/flazz/vim-colorschemes
+[submodule "vimrc/bundle/vim-colorstepper"]
+	path = vimrc/bundle/vim-colorstepper
+	url = https://github.com/qualiabyte/vim-colorstepper
+[submodule "vimrc/bundle/csv.vim"]
+	path = vimrc/bundle/csv.vim
+    url = https://github.com/chrisbra/csv.vim
+[submodule "vimrc/bundle/ctrlp.vim"]
+	path = vimrc/bundle/ctrlp.vim
+    url = https://github.com/kien/ctrlp.vim
