@@ -1,0 +1,119 @@
+set nocompatible	" Use Vim defaults instead of 100% vi compatibility
+set backspace=indent,eol,start	" more powerful backspacing
+
+set textwidth=0		" Don't wrap lines by default 
+set backupcopy=yes	" Keep a backup file
+set viminfo='20,\"50	" read/write file .viminfo, store<=50 lines of registers
+set history=50		" keep 50 lines of command line history
+set ruler			" show the cursor position all the time
+" set number          " show line numbers
+set hidden
+
+set background=dark
+
+set showcmd		" Show (partial) command in status line.
+set showmatch	" Show matching brackets.
+set ignorecase	" Do case insensitive matching
+set incsearch	" Incremental search
+set hlsearch
+
+set shiftwidth=4
+set autoindent		
+set smartindent
+set expandtab
+set smarttab
+set tabstop=4
+set softtabstop=4
+
+set encoding=utf-8
+set fileencodings=utf-8
+
+set laststatus=2
+
+" by Proskurnev: Highlight .tyaml syntax
+au BufRead,BufNewFile *.tyaml           set filetype=yaml
+
+" by Proskurnev: Manual file encoding selection. To select file enconding press <F8>
+function! ChangeFileencoding()
+        let encodings = ['cp1251', 'koi8-u', 'cp866', 'utf-8']
+        let prompt_encs = []
+        let index = 0
+        while index < len(encodings)
+                call add(prompt_encs, index.'. '.encodings[index])
+                let index = index + 1
+        endwhile
+        let choice = inputlist(prompt_encs)
+        if choice >= 0 && choice < len(encodings)
+                execute 'e ++enc='.encodings[choice].' %:p'
+        endif
+endf
+nmap <F8> :call ChangeFileencoding()<CR>
+
+syntax on		
+filetype on
+filetype plugin on
+filetype plugin indent on
+
+let g:pathogen_disabled = [ 'pathogen' ]    " don't load some bundle
+call pathogen#infect()  " load everything else
+call pathogen#helptags()
+
+noremap <F2> <Plug>ColorstepPrev
+noremap <F3> <Plug>ColorstepNext
+
+noremap <F6> :lclose<CR><CR>
+noremap <F7> :call SyntasticCheck()<CR>
+
+let g:syntastic_mode_map = { "mode": "passive" }
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_enable_signs = 0
+
+let g:syntastic_python_checkers = ['flake8', ]
+let g:syntastic_python_pylint_post_args='--disable=C0103,C0111'
+let g:syntastic_python_flake8_args = "--max-line-length=80"
+
+" Setup some default ignores
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site)$',
+  \ 'file': '\v\.(exe|so|dll|class|png|jpg|jpeg|pyc)$',
+\}
+
+" Use the nearest .git directory as the cwd
+" This makes a lot of sense if you are working on a project that is in
+" version control. It also supports works with .svn, .hg, .bzr.
+let g:ctrlp_working_path_mode = 'ra'
+
+let g:ctrlp_clear_cache_on_exit = 0
+
+" Use a leader instead of the actual named binding
+nmap <leader>p :CtrlP<cr>
+
+" Easy bindings for its various modes
+nmap <leader>bb :CtrlPBuffer<cr>
+nmap <leader>bm :CtrlPMixed<cr>
+nmap <leader>bs :CtrlPMRU<cr>
+
+autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
+
+" Use the right side of the screen
+let g:buffergator_viewport_split_policy = 'R'
+
+" I want my own keymappings...
+let g:buffergator_suppress_keymaps = 1
+
+" Looper buffers
+let g:buffergator_mru_cycle_loop = 1
+
+" Go to the previous buffer open
+nmap <leader>jj :BuffergatorMruCyclePrev<cr>
+
+" Go to the next buffer open
+nmap <leader>kk :BuffergatorMruCycleNext<cr>
+
+" View the entire list of buffers open
+nmap <leader>bl :BuffergatorOpen<cr>
+
+" Shared bindings from Solution #1 from earlier
+nmap <leader>T :enew<cr>
+nmap <leader>bq :bp <BAR> bd #<cr>
