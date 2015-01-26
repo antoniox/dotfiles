@@ -25,3 +25,12 @@
 [submodule "vimrc/bundle/ctrlp.vim"]
 	path = vimrc/bundle/ctrlp.vim
 	url = https://github.com/kien/ctrlp.vim
+[submodule "vimrc/bundle/neco-ghc"]
+	path = vimrc/bundle/neco-ghc
+	url = git@github.com:eagletmt/neco-ghc.git
+[submodule "vimrc/bundle/YouCompleteMe"]
+	path = vimrc/bundle/YouCompleteMe
+	url = git@github.com:Valloric/YouCompleteMe.git
+[submodule "vim-buffergator"]
+	path = vim-buffergator
+	url = https://github.com/jeetsukumaran/vim-buffergator
