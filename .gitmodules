@@ -31,6 +31,6 @@
 [submodule "vimrc/bundle/YouCompleteMe"]
 	path = vimrc/bundle/YouCompleteMe
 	url = git@github.com:Valloric/YouCompleteMe.git
-[submodule "vim-buffergator"]
-	path = vim-buffergator
+[submodule "vimrc/bundle/vim-buffergator"]
+	path = vimrc/bundle/vim-buffergator
 	url = https://github.com/jeetsukumaran/vim-buffergator

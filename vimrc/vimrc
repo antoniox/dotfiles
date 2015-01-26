@@ -10,6 +10,7 @@ set ruler			" show the cursor position all the time
 set hidden
 
 set background=dark
+colorscheme wargrey
 
 set showcmd		" Show (partial) command in status line.
 set showmatch	" Show matching brackets.
@@ -95,6 +96,8 @@ nmap <leader>bm :CtrlPMixed<cr>
 nmap <leader>bs :CtrlPMRU<cr>
 
 autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
+
+let g:ycm_semantic_triggers = {'haskell' : ['.']}
 
 " Use the right side of the screen
 let g:buffergator_viewport_split_policy = 'R'
