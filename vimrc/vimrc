@@ -5,18 +5,18 @@ set textwidth=0		" Don't wrap lines by default
 set backupcopy=yes	" Keep a backup file
 set viminfo='20,\"50	" read/write file .viminfo, store<=50 lines of registers
 set history=50		" keep 50 lines of command line history
-set ruler			" show the cursor position all the time
 " set number          " show line numbers
 set hidden
 
+colorscheme ngc224colorscheme
 set background=dark
-colorscheme wargrey
 
 set showcmd		" Show (partial) command in status line.
 set showmatch	" Show matching brackets.
 set ignorecase	" Do case insensitive matching
+set smartcase " Do both case sensitive and case insensitive searches
 set incsearch	" Incremental search
-set hlsearch
+set hlsearch " Do highlight search
 
 set shiftwidth=4
 set autoindent		
@@ -31,48 +31,85 @@ set fileencodings=utf-8
 
 set laststatus=2
 
+
+noremap <leader>s :nohl<CR>
+noremap <leader>o <S>o<Esc>
+noremap <leader>O <S>O<Esc>
+
+
 " by Proskurnev: Highlight .tyaml syntax
-au BufRead,BufNewFile *.tyaml           set filetype=yaml
+au BufRead,BufNewFile *.tyaml set filetype=yaml
 
 " by Proskurnev: Manual file encoding selection. To select file enconding press <F8>
 function! ChangeFileencoding()
-        let encodings = ['cp1251', 'koi8-u', 'cp866', 'utf-8']
-        let prompt_encs = []
-        let index = 0
-        while index < len(encodings)
-                call add(prompt_encs, index.'. '.encodings[index])
-                let index = index + 1
-        endwhile
-        let choice = inputlist(prompt_encs)
-        if choice >= 0 && choice < len(encodings)
-                execute 'e ++enc='.encodings[choice].' %:p'
-        endif
+    let encodings = ['cp1251', 'koi8-u', 'cp866', 'utf-8']
+    let prompt_encs = []
+    let index = 0
+    while index < len(encodings)
+            call add(prompt_encs, index.'. '.encodings[index])
+            let index = index + 1
+    endwhile
+    let choice = inputlist(prompt_encs)
+    if choice >= 0 && choice < len(encodings)
+            execute 'e ++enc='.encodings[choice].' %:p'
+    endif
 endf
 nmap <F8> :call ChangeFileencoding()<CR>
 
+
+" Prepare Vundle
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+
+" Disable arrows antipattern
+Plugin 'wikitopian/hardmode' 
+
+" Enable fuzzy search
+Plugin 'kien/ctrlp.vim'
+
+" Provide extra buffer capabilities
+Plugin 'jeetsukumaran/vim-buffergator'
+
+" Do syntax checking
+Plugin 'scrooloose/syntastic'
+
+" Do completion
+Plugin 'Valloric/YouCompleteMe'
+
+" ...
+Plugin 'eagletmt/neco-ghc'
+
+" Provide python IDE capabilities
+Plugin 'davidhalter/jedi-vim'
+
+" Show csv files nicely
+Plugin 'chrisbra/csv.vim'
+
+" Status-bar
+Plugin 'bling/vim-airline'
+
+" Git integration
+Plugin 'tpope/vim-fugitive'
+
+" Minimalistic colorscheme creation
+Plugin 'Heldraug/Vim-Colorscheme-Template'
+
+call vundle#end()
+
+
 syntax on		
-filetype on
-filetype plugin on
 filetype plugin indent on
 
-let g:pathogen_disabled = [ 'pathogen' ]    " don't load some bundle
-call pathogen#infect()  " load everything else
-call pathogen#helptags()
+" HardMode settings
+autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
 
-noremap <F2> <Plug>ColorstepPrev
-noremap <F3> <Plug>ColorstepNext
-
-noremap <F6> :lclose<CR><CR>
-noremap <F7> :call SyntasticCheck()<CR>
-
-let g:syntastic_mode_map = { "mode": "passive" }
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_enable_signs = 0
-
-let g:syntastic_python_checkers = ['flake8', ]
-let g:syntastic_python_pylint_post_args='--disable=C0103,C0111'
-let g:syntastic_python_flake8_args = "--max-line-length=80"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" CtrlP settings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Setup some default ignores
 let g:ctrlp_custom_ignore = {
@@ -87,6 +124,9 @@ let g:ctrlp_working_path_mode = 'ra'
 
 let g:ctrlp_clear_cache_on_exit = 0
 
+" Enable fuzzy search on buffer contents
+let g:ctrlp_extensions = ['line']
+
 " Use a leader instead of the actual named binding
 nmap <leader>p :CtrlP<cr>
 
@@ -94,10 +134,11 @@ nmap <leader>p :CtrlP<cr>
 nmap <leader>bb :CtrlPBuffer<cr>
 nmap <leader>bm :CtrlPMixed<cr>
 nmap <leader>bs :CtrlPMRU<cr>
+nmap <leader>bl :CtrlPLine<cr>
 
-autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
-
-let g:ycm_semantic_triggers = {'haskell' : ['.']}
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" Buffergator settings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Use the right side of the screen
 let g:buffergator_viewport_split_policy = 'R'
@@ -120,3 +161,36 @@ nmap <leader>bl :BuffergatorOpen<cr>
 " Shared bindings from Solution #1 from earlier
 nmap <leader>T :enew<cr>
 nmap <leader>bq :bp <BAR> bd #<cr>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" Syntastic settings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" handy way to close location list
+nmap <leader>lq :lclose<CR><CR>
+
+" call syntastic manually
+nmap <leader>s :call SyntasticCheck()<CR>
+
+let g:syntastic_mode_map = { "mode": "passive" }
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_enable_signs = 0
+
+let g:syntastic_python_checkers = ['flake8', ]
+let g:syntastic_python_pylint_post_args='--disable=C0103,C0111'
+let g:syntastic_python_flake8_args = "--max-line-length=80"
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" YouCompleteMe settings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:ycm_semantic_triggers = {'haskell' : ['.']}
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" neco-ghc settings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+au BufRead,BufNewFile *.hs  set omnifunc=necoghc#omnifunc
+
+let g:necoghc_enable_detailed_browse = 1
