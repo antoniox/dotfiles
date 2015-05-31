@@ -19,6 +19,7 @@ set incsearch	" Incremental search
 set hlsearch " Do highlight search
 
 set shiftwidth=4
+set shiftround
 set autoindent		
 set smartindent
 set expandtab
@@ -29,13 +30,13 @@ set softtabstop=4
 set encoding=utf-8
 set fileencodings=utf-8
 
-set laststatus=2
-
 
 noremap <leader>s :nohl<CR>
-noremap <leader>o <S>o<Esc>
-noremap <leader>O <S>O<Esc>
+noremap <leader>o o<Esc>
+noremap <leader>O O<Esc>
+noremap <leader>e :Explore<CR>
 
+let g:netrw_liststyle = 3
 
 " by Proskurnev: Highlight .tyaml syntax
 au BufRead,BufNewFile *.tyaml set filetype=yaml
@@ -77,10 +78,16 @@ Plugin 'jeetsukumaran/vim-buffergator'
 " Do syntax checking
 Plugin 'scrooloose/syntastic'
 
+" Allow subexpression type inference
+Plugin 'eagletmt/ghcmod-vim'
+
+" ghcmod dependency
+Plugin 'Shougo/vimproc.vim'
+
 " Do completion
 Plugin 'Valloric/YouCompleteMe'
 
-" ...
+" Allow semantic completion for haskell
 Plugin 'eagletmt/neco-ghc'
 
 " Provide python IDE capabilities
@@ -97,6 +104,9 @@ Plugin 'tpope/vim-fugitive'
 
 " Minimalistic colorscheme creation
 Plugin 'Heldraug/Vim-Colorscheme-Template'
+
+" Allow easy commenting
+Plugin 'tomtom/tcomment_vim'
 
 call vundle#end()
 
@@ -131,10 +141,10 @@ let g:ctrlp_extensions = ['line']
 nmap <leader>p :CtrlP<cr>
 
 " Easy bindings for its various modes
-nmap <leader>bb :CtrlPBuffer<cr>
-nmap <leader>bm :CtrlPMixed<cr>
-nmap <leader>bs :CtrlPMRU<cr>
-nmap <leader>bl :CtrlPLine<cr>
+nmap <leader>pb :CtrlPBuffer<cr>
+nmap <leader>pm :CtrlPMixed<cr>
+nmap <leader>ps :CtrlPMRU<cr>
+nmap <leader>pl :CtrlPLine<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Buffergator settings
@@ -168,9 +178,16 @@ nmap <leader>bq :bp <BAR> bd #<cr>
 
 " handy way to close location list
 nmap <leader>lq :lclose<CR><CR>
+nmap <leader>ln :lnext<CR><CR>
+nmap <leader>lp :lprev<CR><CR>
 
 " call syntastic manually
-nmap <leader>s :call SyntasticCheck()<CR>
+nmap <leader>c :call SyntasticCheck()<CR>
+
+" show checker & language
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 
 let g:syntastic_mode_map = { "mode": "passive" }
 let g:syntastic_always_populate_loc_list = 1
@@ -181,16 +198,38 @@ let g:syntastic_python_checkers = ['flake8', ]
 let g:syntastic_python_pylint_post_args='--disable=C0103,C0111'
 let g:syntastic_python_flake8_args = "--max-line-length=80"
 
+let g:syntastic_haskell_checkers = ['ghc_mod',]
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ YouCompleteMe settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" don't complete on ->
 let g:ycm_semantic_triggers = {'haskell' : ['.']}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ neco-ghc settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-au BufRead,BufNewFile *.hs  set omnifunc=necoghc#omnifunc
+" enable completion
+au BufRead,BufNewFile *.hs  setlocal omnifunc=necoghc#omnifunc
 
+" show haskell function signatures
 let g:necoghc_enable_detailed_browse = 1
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" Jedi-vim settings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" don't show preview window
+autocmd FileType python setlocal completeopt-=preview
+
+" use buffers not tabs
+let g:jedi#use_tabs_not_buffers = 0
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" airline settings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" show statusline all the time
+set laststatus=2
