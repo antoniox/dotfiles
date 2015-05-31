@@ -14,8 +14,13 @@ sudo apt-get install python-flake8 ghc-mod
 #compile YCM
 cd $bundle_dir/YouCompleteMe && ./install.sh && cd -
 
-mv $HOME/.vim $HOME/.vim.bak
-mv $HOME/.vimrc $HOME/.vimrc.bak
+if [[ -x $HOME/.vim ]]; then
+    mv $HOME/.vim $HOME/.vim.bak
+fi
+
+if [[ -x $HOME/.vimrc ]]; then
+    mv $HOME/.vimrc $HOME/.vimrc.bak
+fi
 
 ln -s $(pwd)/vimrc $HOME/.vim
 ln -s $(pwd)/vimrc/vimrc $HOME/.vimrc
