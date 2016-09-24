@@ -21,7 +21,7 @@ set hlsearch " Do highlight search
 set shiftwidth=4
 set shiftround
 set autoindent		
-set smartindent
+set cindent
 set expandtab
 set smarttab
 set tabstop=4
@@ -36,7 +36,13 @@ noremap <leader>o o<Esc>
 noremap <leader>O O<Esc>
 noremap <leader>e :Explore<CR>
 
+noremap ,d :b#<bar>bd#<CR>
+noremap <leader>] zj
+noremap <leader>[ zk
+noremap C zC
+
 let g:netrw_liststyle = 3
+let g:netrw_list_hide = '.*\.swp$,.*\.pyc$'
 
 " by Proskurnev: Highlight .tyaml syntax
 au BufRead,BufNewFile *.tyaml set filetype=yaml
@@ -108,6 +114,12 @@ Plugin 'Heldraug/Vim-Colorscheme-Template'
 " Allow easy commenting
 Plugin 'tomtom/tcomment_vim'
 
+" Allow easy rst editing
+Bundle 'Rykka/riv.vim'
+
+" Support nice python foldings
+" Plugin 'tmhedberg/SimpylFold'
+
 call vundle#end()
 
 
@@ -141,10 +153,10 @@ let g:ctrlp_extensions = ['line']
 nmap <leader>p :CtrlP<cr>
 
 " Easy bindings for its various modes
-nmap <leader>pb :CtrlPBuffer<cr>
-nmap <leader>pm :CtrlPMixed<cr>
-nmap <leader>ps :CtrlPMRU<cr>
-nmap <leader>pl :CtrlPLine<cr>
+" nmap <leader>pb :CtrlPBuffer<cr>
+" nmap <leader>pm :CtrlPMixed<cr>
+" nmap <leader>ps :CtrlPMRU<cr>
+" nmap <leader>pl :CtrlPLine<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Buffergator settings
@@ -194,8 +206,8 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_enable_signs = 0
 
-let g:syntastic_python_checkers = ['flake8', ]
-let g:syntastic_python_pylint_post_args='--disable=C0103,C0111'
+let g:syntastic_python_checkers = ['flake8',]
+" let g:syntastic_python_pylint_post_args='--disable=C0103,C0111'
 let g:syntastic_python_flake8_args = "--max-line-length=80"
 
 let g:syntastic_haskell_checkers = ['ghc_mod',]
@@ -203,6 +215,9 @@ let g:syntastic_haskell_checkers = ['ghc_mod',]
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ YouCompleteMe settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_global_ycm_extra_conf = "~/repos/dotfiles/vimrc/ycm.py"
 
 " don't complete on ->
 let g:ycm_semantic_triggers = {'haskell' : ['.']}
@@ -233,3 +248,13 @@ let g:jedi#use_tabs_not_buffers = 0
 
 " show statusline all the time
 set laststatus=2
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" riv settings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:riv_fold_level = -1
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" SimpylFold
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
