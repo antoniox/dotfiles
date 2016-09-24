@@ -11,16 +11,14 @@ if [[ ! -d "$bundle_dir/Vundle.vim" ]]; then
 fi
 
 vim +PluginInstall +qall
-if [[ -x $HOME/.vim ]]; then
-    mv $HOME/.vim $HOME/.vim.bak
-fi
 
-if [[ -x $HOME/.vimrc ]]; then
-    mv $HOME/.vimrc $HOME/.vimrc.bak
-fi
+for name in vim vimrc bashrc gitconfig bash_functions; do
+    if [[ -x $HOME/.$name ]]; then
+        mv $HOME/.$name $HOME/.$name\.bak
+    fi
 
-ln -s $(pwd)/vimrc $HOME/.vim
-ln -s $(pwd)/vimrc/vimrc $HOME/.vimrc
+    ln -s $(pwd)/$name $HOME/.$name
+done
 
 # sudo apt-get install python-flake8 ghc-mod
 #

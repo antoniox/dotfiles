@@ -1,0 +1,11 @@
+[push]
+	default = matching
+[diff]
+	tool = vimdiff
+[difftool]
+	prompt = false
+[alias]
+	d = difftool
+    cdummy = !"git add -u; git commit -m '123'; git squash2"
+    squash = !EDITOR=\""_() { source ~/.bash_functions; git_squash_editor \\$1; }; _\"" git rebase -i
+    squash2 = !EDITOR=\""_() { source ~/.bash_functions; git_squash_editor \\$1; }; _\"" git rebase -i HEAD~2
