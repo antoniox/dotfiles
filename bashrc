@@ -107,7 +107,7 @@ export LC_ALL=en_US.utf-8
 export DEBFULLNAME="Anton Martsenyuk"
 export DEBEMAIL="ngc224@yandex-team.ru"
 export EDITOR=vim
-export PATH=$PATH:~/repos/mrjob/tools/evvers:~/tools
+export PATH=$PATH:~/repos/mrjob/tools/evvers:~/tools:~/repos/arcadia/devtools/ya
 
 export YT_PREFIX=//statbox/
 export MRPROC_SCALE=daily
@@ -151,3 +151,5 @@ if [ -z "$TMUX" ]; then
         tmux attach
     fi
 fi
+
+source /home/ngc224/.ya.completion/bash/ya # YA_COMPLETION NAME='ya'

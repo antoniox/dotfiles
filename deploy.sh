@@ -6,7 +6,7 @@ if [[ ! -d "$bundle_dir" ]]; then
     mkdir $bundle_dir
 fi
 
-for name in vim vimrc bashrc gitconfig bash_functions; do
+for name in vim vimrc bashrc gitconfig bash_functions tmux.conf; do
     if [[ -f $HOME/.$name || -d $HOME/.$name || -L $HOME/.$name ]]; then
         mv $HOME/.$name $HOME/.$name\.bak
     fi
