@@ -99,57 +99,30 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-if [ -d ~/.bash_completion.d ] && [ -f ~/.bash_completion.d/python-argcomplete.sh ]; then
-    . ~/.bash_completion.d/python-argcomplete.sh
-fi
-
 export LC_ALL=en_US.utf-8
-export DEBFULLNAME="Anton Martsenyuk"
-export DEBEMAIL="ngc224@yandex-team.ru"
+export DEBFULLNAME="Alyona Martsenyuk"
+export DEBEMAIL="english52009@yandex.ru"
 export EDITOR=vim
-export PATH=$PATH:~/repos/mrjob/tools/evvers:~/tools:~/repos/arcadia/devtools/ya
-
-export YT_PREFIX=//statbox/
-export MRPROC_SCALE=daily
-export QC_WHEEL_PATH=$HOME/repos/backend/wheelhouse
-export NILE_WHEEL_PATH=$HOME/repos/nile/wheelhouse:$HOME/repos/cyson/wheelhouse:$HOME/repos/qb2/wheelhouse
-
-alias kjob="./job -cluster=kant"
-alias sjob="./job -cluster=smith"
-alias qjob="./job -cluster=quine"
-alias pjob="./job -cluster=plato"
-alias rjob="./job -cluster=redwood"
-
-alias ssh-parser="ssh statbox@mrparser1e.stat.yandex.net"
-alias ssh-betaparser="ssh statbox@mrparser2ft.stat.yandex.net"
-alias ssh-webface="ssh statbox@webface04e.stat.yandex.net"
-alias ssh-betaface="ssh statbox@webface01ft.stat.yandex.net"
-
-alias mr="~/repos/mrjob/tools/evvers/mr"
 
 . ~/.bash_functions
 
-workon devel
-
-if [ -z "$TMUX" ]; then
-    # we're not in a tmux session
-
-    if [ ! -z "$SSH_TTY" ]; then
-        # We logged in via SSH
-
-        SOCK=$HOME/.ssh/.auth_sock
-        if test $SSH_AUTH_SOCK && [ $SSH_AUTH_SOCK != $SOCK ]
-        then
-            rm -f $SOCK
-            ln -sf $SSH_AUTH_SOCK $SOCK
-            export SSH_AUTH_SOCK=$SOCK
-        fi
-        # Add all default keys to ssh auth
-        ssh-add 2>/dev/null
-
-        # start tmux
-        tmux attach
-    fi
-fi
-
-source /home/ngc224/.ya.completion/bash/ya # YA_COMPLETION NAME='ya'
+# if [ -z "$TMUX" ]; then
+#     # we're not in a tmux session
+#
+#     if [ ! -z "$SSH_TTY" ]; then
+#         # We logged in via SSH
+#
+#         SOCK=$HOME/.ssh/.auth_sock
+#         if test $SSH_AUTH_SOCK && [ $SSH_AUTH_SOCK != $SOCK ]
+#         then
+#             rm -f $SOCK
+#             ln -sf $SSH_AUTH_SOCK $SOCK
+#             export SSH_AUTH_SOCK=$SOCK
+#         fi
+#         # Add all default keys to ssh auth
+#         ssh-add 2>/dev/null
+#
+#         # start tmux
+#         tmux attach
+#     fi
+# fi
